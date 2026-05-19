@@ -1,37 +1,21 @@
-import React, { useState } from "react";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
-export default function TableDatePicker() {
-
- const [date, setDate] = useState(new Date());
- const [startDate, setStartDate] = useState(new Date());
- const [endDate, setEndDate] = useState(new Date());
-
- return (
-    <div> 
-    <DatePicker
+export default function TableDatePicker({ selected, onChange }) {
+  return (
+    <div className="daily-date-picker">
+      <label htmlFor="daily-log-datetime" className="daily-date-picker-label">
+        Date &amp; time for this log:
+      </label>
+      <DatePicker
+        id="daily-log-datetime"
         showTimeSelect
         dateFormat="MMMM d, yyyy h:mmaa"
-        selected={startDate}
-        selectsStart
-        startDate={startDate}
-        endDate={endDate}
-        onChange={date => setStartDate(date)}
-/>
-
-    {/* Uncomment out if you want a end date and time */}
-    {/* <DatePicker
-        showTimeSelect
-        dateFormat="MMMM d, yyyy h:mmaa"
-        selected={startDate}
-        selectsEnd
-        startDate={startDate}
-        endDate={endDate}
-        minDate={startDate}
-        onChange={date => setEndDate(date)}
-/> */}
-   </div>
- );
+        selected={selected}
+        onChange={(date) => onChange(date || new Date())}
+        popperPlacement="bottom"
+        popperProps={{ strategy: 'fixed' }}
+      />
+    </div>
+  );
 }

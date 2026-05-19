@@ -1,82 +1,81 @@
-import { useState } from "react"
-import axios from "axios"
-import jwt_decode from "jwt-decode"
-import { useNavigate, Navigate } from "react-router-dom"
+import { useState } from 'react';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { useNavigate, Navigate } from 'react-router-dom';
 
-export default function UserLogin( {currentUser, setCurrentUser}){
-    // states for the controlled form
-    const [username, setUsername] =useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] =useState("")
-    const [msg, setMsg] = useState("")
-    const navigate = useNavigate()
+export default function UserLogin({ currentUser, setCurrentUser }) {
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [msg, setMsg] = useState('');
+  const navigate = useNavigate();
 
-    // submit login form event handler
-    const handleSubmit = async e =>{
-        e.preventDefault()
-        try{
-        // post form to backend
-            const reqBody = {
-                username,
-                email,
-                password
-            }
-            console.log('TACO', reqBody)
-           const response = await axios.post('http://localhost:8000/api/user/login/', reqBody)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMsg('');
 
-            // save the token in local storage
-            const { token } = response.data
-            console.log(token)
-            localStorage.setItem("jwt", token)
-            // decode the token
-            const decoded= jwt_decode(token)
-            // set the user in app state
-            setCurrentUser(decoded)
-        }catch(err){
-            console.warn(err)
-            if(err.response === 400 ){
-                setMsg(err.response.data.msg)
-            }
-        }
-        navigate('/user/profile/')
+    try {
+      const response = await axios.post('/api/user/login/', {
+        login,
+        password,
+      });
+
+      const { token } = response.data;
+      localStorage.setItem('jwt', token);
+      setCurrentUser(jwt_decode(token));
+      navigate('/user/profile/');
+    } catch (err) {
+      console.warn(err);
+      if (err.response?.status === 400) {
+        setMsg(err.response.data.msg || 'Login failed. Check your username or email and password.');
+      } else {
+        setMsg('Could not reach the server. Is Django running on port 8000?');
+      }
     }
-    // conditionally render a navigate component
-    if (currentUser){
-        return <Navigate to="/user/profile/" />
-    }
+  };
 
+  if (currentUser) {
+    return <Navigate to="/user/profile/" />;
+  }
 
-    return(
-        <div>
-            <h1> Login to access your account </h1>
-            {msg}
-            <form onSubmit={handleSubmit}>
-            <label htmlFor="username"><h2>Username:</h2></label>
-                    <input
-                        type = "text"
-                        id = "username"
-                        placeholder = "your username"
-                        onChange ={e=> setUsername(e.target.value)}
-                        value={username}
-                    />
-                <label htmlFor="email"><h2>Email:</h2></label>
-                    <input
-                        type = "text"
-                        id = "email"
-                        placeholder = "your email"
-                        onChange ={e=> setEmail(e.target.value)}
-                        value={email}
-                    />
-                <label className='pass2' htmlFor="password"><h2>Password:</h2></label> 
-                    <input
-                        type = "text"
-                        id = "password"
-                        placeholder = "enter your password"
-                        onChange={e => setPassword (e.target.value)}
-                        value={password}
-                    />
-                <button type="submit" className="bg-sky-500 hover:bg-sky-700 ..."><h2>Login</h2></button>
-            </form>
+  return (
+    <div className="auth-page">
+      <h1>Login to access your account</h1>
+      {msg && <p>{msg}</p>}
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="auth-field">
+          <label htmlFor="login">
+            <h2>Username or email:</h2>
+          </label>
+          <input
+            type="text"
+            id="login"
+            className="auth-input"
+            placeholder="your username or email"
+            onChange={(e) => setLogin(e.target.value)}
+            value={login}
+            required
+            autoComplete="username"
+          />
         </div>
-    )
+        <div className="auth-field">
+          <label htmlFor="password">
+            <h2>Password:</h2>
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="auth-input"
+            placeholder="enter your password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            required
+            autoComplete="current-password"
+          />
+        </div>
+        <button type="submit" className="bg-sky-500 hover:bg-sky-700 ...">
+          <h2>Login</h2>
+        </button>
+      </form>
+    </div>
+  );
 }

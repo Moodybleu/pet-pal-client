@@ -1,104 +1,114 @@
-import { useEffect, useState } from "react"
-import axios from 'axios'
-import { useNavigate } from "react-router-dom"
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
+export default function PetNew() {
+  const [form, setForm] = useState({
+    name: '',
+    breed: '',
+    age: '',
+    nickname: '',
+    catchphrase: '',
+  });
 
-export default function PetNew(){
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
-    const [form, setForm] = useState({
-        Name: '',
-        Breed: '',
-        Date_of_birth: '',
-        Nickname: '',
-        Catchphrase: ''
-    })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
 
-    const [errorMessage, setErrorMessage] = useState('')
-
-    const navigate = useNavigate()
-
-    // submit event handler
-    const handleSubmit = async e => {   
-        e.preventDefault()
-        try {
-            const token = localStorage.getItem('jwt')
-            const options = {
-                headers: {
-                    'Authorization': token
-                }
-            }
-            console.log(token)
-            const response = await axios.post('http://localhost:8000/api/pet/new/', form, options)
-            console.log(response.data)
-            console.log(form)
-            navigate('/user/profile')
-        } catch (err) {
-            console.warn(err)
-            if (err.response) {
-                setErrorMessage(err.response.data.message)
-            }
+    try {
+      await axios.post('http://localhost:8000/api/pet/', form);
+      navigate('/user/profile/');
+    } catch (err) {
+      console.warn(err);
+      if (err.response?.data) {
+        const data = err.response.data;
+        if (typeof data === 'object') {
+          setErrorMessage(Object.values(data).flat().join(' '));
+        } else {
+          setErrorMessage(String(data));
         }
+      } else {
+        setErrorMessage('Could not reach the server. Is Django running on port 8000?');
+      }
     }
-    return(
+  };
+
+  return (
+    <div>
+      <h2>Need to add a new pet?</h2>
+      {errorMessage && <p>{errorMessage}</p>}
+
+      <form onSubmit={handleSubmit}>
         <div>
-            <h2>Need to add a new pet? </h2>
-            <p>{errorMessage}</p>
-
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='Name'><h2>Name:</h2></label>
-                    <input 
-                        type='text'
-                        id='Name'
-                        value={form.Name}
-                        placeholder="What's your pet's name?"
-                        onChange={e => setForm ({ ...form, Name: e.target.value})}
-                        />
-                </div>
-                <div>
-                    <label htmlFor='Breed'><h2>Breed:</h2></label>
-                    <input 
-                        type='text'
-                        id='Breed'
-                        value={form.Breed}
-                        placeholder='What breed is your pet?'
-                        onChange={e => setForm ({ ...form, Breed: e.target.value})}
-                        />
-                </div>
-                <div>
-                    <label htmlFor='date_of_birth'><h2>Date of birth/adoption:</h2></label>
-                    <input 
-                        type='text'
-                        id='date_of_birth'
-                        value={form.date_of_birth}
-                        placeholder='When was your pet born or adopted?'
-                        onChange={e => setForm ({ ...form, date_of_birth: e.target.value})}
-                        />
-                </div>
-                <div>
-                    <label htmlFor='Nickname'><h2>Nickname:</h2></label>
-                    <input 
-                        type='text'
-                        id='Nickname'
-                        value={form.Nickname}
-                        placeholder='Does your pet have a nickname?'
-                        onChange={e => setForm ({ ...form, Nickname: e.target.value})}
-                        />
-                </div>
-                <div>
-                    <label htmlFor='Catchphrase'><h2>Catchphrase:</h2></label>
-                    <input 
-                        type='text'
-                        id='Catchphrase'
-                        value={form.Catchphrase}
-                        placeholder='When was your pet born or adopted?'
-                        onChange={e => setForm ({ ...form, Catchphrase: e.target.value})}
-                        />
-                </div>
-
-                <button type='submit'><h3>Add your pet</h3></button>
-
-            </form>
+          <label htmlFor="name">
+            <h2>Name:</h2>
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={form.name}
+            placeholder="What's your pet's name?"
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
         </div>
-    )
-}    
+        <div>
+          <label htmlFor="breed">
+            <h2>Breed:</h2>
+          </label>
+          <input
+            type="text"
+            id="breed"
+            value={form.breed}
+            placeholder="What breed is your pet?"
+            onChange={(e) => setForm({ ...form, breed: e.target.value })}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="age">
+            <h2>Date of birth/adoption:</h2>
+          </label>
+          <input
+            type="text"
+            id="age"
+            value={form.age}
+            placeholder="When was your pet born or adopted?"
+            onChange={(e) => setForm({ ...form, age: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="nickname">
+            <h2>Nickname:</h2>
+          </label>
+          <input
+            type="text"
+            id="nickname"
+            value={form.nickname}
+            placeholder="Does your pet have a nickname?"
+            onChange={(e) => setForm({ ...form, nickname: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="catchphrase">
+            <h2>Catchphrase:</h2>
+          </label>
+          <input
+            type="text"
+            id="catchphrase"
+            value={form.catchphrase}
+            placeholder="Your pet's catchphrase"
+            onChange={(e) => setForm({ ...form, catchphrase: e.target.value })}
+          />
+        </div>
+
+        <button type="submit">
+          <h3>Add your pet</h3>
+        </button>
+      </form>
+    </div>
+  );
+}

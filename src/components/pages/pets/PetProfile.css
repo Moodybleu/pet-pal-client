@@ -1,0 +1,171 @@
+.pet-profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  padding: 1rem 1.25rem 2rem;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.pet-profile-back {
+  width: 100%;
+  text-align: left;
+  margin: 0 0 0.5rem;
+}
+
+.pet-profile-back a {
+  margin: 0 !important;
+  text-shadow: none !important;
+}
+
+.pet-profile-page h1 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.pet-profile-message {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pet-profile-status {
+  padding: 2rem;
+}
+
+.pet-profile-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.pet-profile-photo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pet-profile-photo-frame {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #1a1a1a;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pet-profile-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-profile-photo-placeholder {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+  padding: 0.5rem;
+}
+
+.pet-profile-photo-upload {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.pet-profile-photo-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pet-profile-photo-upload input {
+  display: none;
+}
+
+.pet-profile-adjust-photo {
+  margin: 0 !important;
+  padding: 0.4rem 0.85rem !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #1a1a1a !important;
+  border: 1px solid #1a1a1a !important;
+  border-radius: 6px !important;
+  font-size: 0.9rem !important;
+  cursor: pointer;
+}
+
+.pet-profile-photo-upload span {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
+}
+
+.pet-profile-fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pet-profile-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.pet-profile-field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.pet-profile-field input {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 14px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.pet-profile-save {
+  margin: 0.5rem 0 0 !important;
+  padding: 12px 28px !important;
+  background-color: rgb(83, 204, 150) !important;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pet-profile-save:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.pet-profile-links {
+  margin-top: 1.25rem;
+}
+
+.pet-profile-links a {
+  margin: 0 !important;
+  text-shadow: none !important;
+  font-weight: 500;
+}

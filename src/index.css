@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,7 +13,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(47, 121, 123);
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: rgb(47, 121, 123);
   background-image: url(../Pet-Pal-Wireframe/background.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
 }
 
 code {
@@ -19,13 +37,21 @@ code {
 
 nav {
   position: sticky;
-  border-radius: 5px;
-  border: 10px solid transparent;
-  background-color: rgba(183, 183, 183, 0.3);
-  padding-top: 20px;
-  padding-right: 0px;
-  padding-bottom: 20px;
-  padding-left: 0px;
+  top: 0;
+  z-index: 10;
+  border: none;
+  border-radius: 0;
+  background-color: #6ea19e;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+nav > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
 } 
 a {
   color: rgb(0, 0, 0) !important;
@@ -35,22 +61,77 @@ a {
 }
 
 
-input[type=text] {
+input[type=text],
+input[type=email],
+input[type=password] {
   width: 50%;
   max-width: 100%;
   padding: 12px 20px;
   margin: 8px 8px;
-  display: flexbox;
+  display: block;
   border: 1px solid rgb(0, 0, 0);
   border-radius: 4px;
   box-sizing: border-box;
   text-align: center;
+  font-size: 1rem;
+  font-family: inherit;
 }
-.pass {
-  margin: 0px 115px 0px 0px;
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
-.pass2{
-  margin: 0px 100px 0px 0px;
+
+.auth-page h1,
+.auth-page > p {
+  text-align: center;
+  max-width: 420px;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-form .auth-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-form .auth-field label {
+  display: block;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.auth-form .auth-field label h2 {
+  margin: 0.75rem 0 0.25rem;
+}
+
+.auth-form .auth-input {
+  width: 100%;
+  max-width: 320px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.auth-form button[type='submit'] {
+  margin-top: 0.5rem;
 }
 button[type=submit] {
   background-color: rgb(83, 204, 150);
@@ -71,6 +152,13 @@ button {
   border-radius: 4px !important;
   cursor: pointer;
 }
+
+nav .nav-logout {
+  background: transparent;
+  font-size: inherit;
+  font-family: inherit;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.629);
+}
 h1, h2, h3, h4{
   display: block;
 }
@@ -84,14 +172,564 @@ h1, h2, h3, h4{
   flex: 10%;
   
 }
- .pet_diary {
+.pet_diary {
   margin: 10px;
- }
+}
 
- .selectioncard {
+.home-pet-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  max-width: 420px;
+  margin: 0 auto 1.25rem;
+  padding: 1rem 1.25rem;
+  background: rgba(254, 244, 229, 0.85);
+  border: 2px solid #1a1a1a;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.home-pet-picker label {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.home-pet-picker select {
+  width: 100%;
+  max-width: 280px;
+  padding: 10px 12px;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.home-pet-picker-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  max-width: 360px;
+}
+
+.selectioncard {
   border: 1px solid rgb(0, 0, 0);
   border-radius: 90px;
   padding: 15px;
   margin: 20px;
   background-color: rgba(254, 244, 229, 0.651);
- }
+}
+
+.vet-form-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #1a1a1a;
+  width: 100%;
+}
+
+.vet-form-compact-title {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.vet-form-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 1rem auto 2rem;
+  padding: 1.5rem;
+  color: #1a1a1a;
+  background: rgba(254, 244, 229, 0.95);
+  border: 2px solid #1a1a1a;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.vet-form-page h2,
+.vet-form-page > p {
+  text-align: center;
+  width: 100%;
+}
+
+.vet-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vet-form-compact .vet-form-fields {
+  width: 100%;
+  align-items: stretch;
+}
+
+.vet-form-page .vet-form-fields {
+  width: 100%;
+  align-items: center;
+}
+
+.vet-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.vet-form-compact .vet-form-field {
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.vet-form-page .vet-form-field {
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.vet-form-field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.vet-form-page .vet-form-field label {
+  text-align: center;
+  width: 100%;
+}
+
+.vet-form-compact .vet-form-field input,
+.vet-form-compact .vet-form-field select {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  text-align: left;
+  padding: 8px 10px;
+  box-sizing: border-box;
+}
+
+.vet-form-page .vet-form-field input,
+.vet-form-page .vet-form-field select {
+  width: 100%;
+  max-width: 320px;
+  margin: 8px 0;
+  padding: 12px 20px;
+  text-align: center;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.vet-form-compact .vet-form-submit {
+  margin: 0.5rem 0 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-self: stretch;
+  display: block;
+}
+
+.vet-form-page .vet-form-submit {
+  margin-top: 0.75rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+.vet-form-success {
+  background: #d1fae5;
+  border: 1px solid #059669;
+  color: #065f46;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.vet-form-more-fields {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  text-align: center;
+  width: 100%;
+}
+
+.appointment-type-panel {
+  width: 100%;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  background: rgba(255, 255, 255, 0.65);
+  box-sizing: border-box;
+}
+
+.appointment-type-panel summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  list-style: none;
+}
+
+.appointment-type-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.appointment-type-panel summary::before {
+  content: '▸ ';
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+}
+
+.appointment-type-panel[open] summary::before {
+  content: '▾ ';
+}
+
+.appointment-type-form {
+  padding: 0 0.75rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.daily-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.daily-card-message {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.daily-pet-field {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.daily-pet-field select {
+  width: 100%;
+  max-width: 100%;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.daily-date-picker-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0 0 0.1rem;
+}
+
+.feed-my-pet {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  margin: 0.35rem 0;
+  background: rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+}
+
+.feed-my-pet-heading {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.feed-meals-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  width: 100%;
+}
+
+.feed-meal-subsection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.daily-food-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.daily-food-label--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.daily-walk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.daily-walk-prompt {
+  margin: 0;
+}
+
+.daily-log-btn {
+  background-color: rgb(83, 204, 150);
+  color: #fff;
+  padding: 0.4rem 0.75rem;
+  margin: 0;
+  min-width: 6rem;
+  font-size: 0.85rem;
+}
+
+.daily-log-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.custom-daily-checks {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  margin: 0.35rem 0;
+  background: rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+}
+
+.custom-daily-heading {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.custom-daily-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.custom-daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.custom-daily-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.custom-daily-row .daily-check-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.custom-daily-remove {
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.35rem;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.custom-daily-remove:hover {
+  opacity: 1;
+}
+
+.custom-daily-add {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.custom-daily-add input {
+  flex: 1;
+  min-width: 10rem;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.custom-daily-add .daily-log-btn {
+  flex-shrink: 0;
+}
+
+.daily-card-heading {
+  width: 100%;
+  text-align: center;
+}
+
+.daily-needs-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.daily-card-divider {
+  width: 75%;
+  max-width: 220px;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  margin: 1rem auto;
+}
+
+.potty-timer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0.25rem;
+}
+
+.daily-date-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+.daily-date-picker .react-datepicker-wrapper {
+  display: block;
+  width: auto;
+  margin: 0;
+}
+
+.daily-date-picker .react-datepicker__input-container {
+  display: block;
+  margin: 0;
+}
+
+.daily-date-picker .react-datepicker__input-container input {
+  text-align: center;
+  width: auto;
+  min-width: 12rem;
+  max-width: 100%;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+.react-datepicker-popper {
+  z-index: 100;
+}
+
+.potty-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.75rem auto;
+  text-align: center;
+}
+
+.potty-timer-title {
+  margin: 0.25rem 0;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+}
+
+.potty-timer-display {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.potty-timer-segment {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.potty-timer-separator {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.potty-timer-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.potty-timer-label {
+  font-size: 0.85rem;
+}
+
+.potty-timer-status {
+  margin: 0;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+}
+
+.potty-timer-controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.potty-timer-controls button {
+  width: auto;
+  min-width: 4.5rem;
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+.selectioncard .potty-timer-display {
+  margin-left: auto;
+  margin-right: auto;
+}

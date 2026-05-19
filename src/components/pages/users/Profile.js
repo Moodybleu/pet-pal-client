@@ -1,46 +1,87 @@
-import { Link } from "react-router-dom"
-import { useState, UseEffect, useEffect } from "react"
-import axios from "axios"
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { getPetPhotoSrc } from '../../../utils/petForm';
+import { formatApiError, parsePetList } from '../../../utils/petsApi';
+import './Profile.css';
 
+export default function Profile() {
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
-export default function Profile(){
-    const [pets, setPets] = useState([])
-    const [errorMessage, setErrorMessage] = useState([])
+  useEffect(() => {
+    const getPets = async () => {
+      setLoading(true);
+      setErrorMessage('');
+      try {
+        const response = await axios.get('/api/pet/');
+        setPets(parsePetList(response.data));
+      } catch (err) {
+        console.warn(err);
+        setErrorMessage(formatApiError(err, 'Could not load pets.'));
+      } finally {
+        setLoading(false);
+      }
+    };
+    getPets();
+  }, []);
 
-    useEffect(()=>{
-        const getPets = async ()=>{
-            try{
-                const response = await axios.get(("http://localhost:8000/api/user/pet/"))
-                setPets(response.data.pets)
-            }catch(err){
-                console.warn(err)
-                if(err.response){
-                    setErrorMessage(err.response.data.message)
-                }
-            }
-        }
-        getPets()
-    }, [])
-    console.log(pets)
+  return (
+    <div className="welcome-page">
+      <div className="welcome-page-content">
+        <h1 className="welcome-title">Welcome to Pet Pal</h1>
+        <p className="welcome-tagline">
+          Pet Pal is designed to keep you up to date on your pets appointments and needs.
+        </p>
 
-    const petList = pets.map(pet =>{
-        return(
-            // not sure if this is correct w django? I feel like the id is different
-            <div key= {pet._id}>
-                <Link to = {"/user/{pet._id}/pet/"}> {pet.name}'s diary</Link>
-            </div>
-        )
-    })
-
-    return(
-        <div>
-            <h1> Welcome to Pet Pal </h1>
-            <p> Pet Pal is designed to keep you up to date on your pets appointments and needs</p>
+        {errorMessage && (
+          <p className="welcome-error" role="alert">
             {errorMessage}
-            {/* link to add a new pet */}
-            <Link to = "/pet/new/"> Add your pet</Link>
-            {/* link to petdiary */}
-            <Link to="/pet/home/"> Your pets diary </Link>
-        </div>
-    )
+          </p>
+        )}
+
+        <nav className="welcome-links" aria-label="Your pets">
+          {loading && <p className="welcome-status">Loading your pets…</p>}
+          {!loading &&
+            pets.map((pet) => {
+              const photoSrc = getPetPhotoSrc(pet);
+              return (
+                <div key={pet.id} className="welcome-pet-row">
+                  <div className="welcome-pet-thumb-wrap">
+                    {photoSrc ? (
+                      <img src={photoSrc} alt="" className="welcome-pet-thumb" />
+                    ) : (
+                      <span className="welcome-pet-thumb welcome-pet-thumb--empty" aria-hidden>
+                        🐾
+                      </span>
+                    )}
+                  </div>
+                  <div className="welcome-pet-links">
+                    <Link to={`/pet/${pet.id}/profile/`}>{pet.name}&apos;s</Link>
+                    <span className="welcome-pet-separator" aria-hidden="true">
+                      ·
+                    </span>
+                    <Link to={`/pet/${pet.id}/diary/`} className="welcome-pet-diary-link">
+                      Diary
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          {!loading && pets.length === 0 && !errorMessage && (
+            <p className="welcome-status">No pets yet — add one below.</p>
+          )}
+          <Link to="/pet/new/" className="welcome-link-add">
+            Add your pet
+          </Link>
+        </nav>
+
+        <p className="welcome-home-link">
+          <Link to="/">Go to homepage to log care</Link>
+        </p>
+      </div>
+    </div>
+  );
 }
+
