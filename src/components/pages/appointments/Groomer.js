@@ -1,5 +1,5 @@
 import { useState } from "react"
-import axios from "axios"
+import api from '../../../utils/petsApi'
 import { useNavigate, useParams } from "react-router-dom" 
 
 
@@ -29,7 +29,7 @@ export default function Groomer(){
                 }
             }
 
-            const response = await axios.post(`http://localhost:8000/pet/${id}/appointment/`, form, options)
+            const response = await api.post('/api/appointments/', { ...form, pet: id }, options)
             console.log(response.data)
             console.log(form)
             navigate('/user/profile')

@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api, { formatApiError, parsePetList } from '../../../utils/petsApi';
 import { getPetPhotoSrc } from '../../../utils/petForm';
-import { formatApiError, parsePetList } from '../../../utils/petsApi';
 import './Profile.css';
 
 export default function Profile() {
@@ -15,7 +14,7 @@ export default function Profile() {
       setLoading(true);
       setErrorMessage('');
       try {
-        const response = await axios.get('/api/pet/');
+        const response = await api.get('/api/pet/');
         setPets(parsePetList(response.data));
       } catch (err) {
         console.warn(err);

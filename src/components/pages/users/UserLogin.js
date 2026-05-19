@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../../../utils/petsApi';
 import jwt_decode from 'jwt-decode';
 import { useNavigate, Navigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
     setMsg('');
 
     try {
-      const response = await axios.post('/api/user/login/', {
+      const response = await api.post('/api/user/login/', {
         login,
         password,
       });

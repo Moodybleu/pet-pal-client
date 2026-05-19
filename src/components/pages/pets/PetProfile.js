@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../../utils/petsApi';
 import { buildPetFormData, getPetPhotoSrc } from '../../../utils/petForm';
 import PetPhotoCropper from './PetPhotoCropper';
 import './PetProfile.css';
@@ -37,7 +37,7 @@ export default function PetProfile({ isCreate: isCreateProp = false }) {
       setLoading(true);
       setErrorMessage('');
       try {
-        const response = await axios.get(`/api/pet/${petId}/`);
+        const response = await api.get(`/api/pet/${petId}/`);
         const pet = response.data;
         setForm({
           name: pet.name || '',
@@ -127,12 +127,12 @@ export default function PetProfile({ isCreate: isCreateProp = false }) {
 
     try {
       if (isNew) {
-        const response = await axios.post('/api/pet/', payload);
+        const response = await api.post('/api/pet/', payload);
         navigate(`/pet/${response.data.id}/profile/`);
         return;
       }
-      await axios.patch(`/api/pet/${petId}/`, payload);
-      const response = await axios.get(`/api/pet/${petId}/`);
+      await api.patch(`/api/pet/${petId}/`, payload);
+      const response = await api.get(`/api/pet/${petId}/`);
       setExistingPhotoUrl(getPetPhotoSrc(response.data));
       setPhotoFile(null);
       setPhotoPreview(null);

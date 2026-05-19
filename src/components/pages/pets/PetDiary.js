@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../../utils/petsApi';
 import './PetDiary.css';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -79,7 +79,7 @@ export default function PetDiary() {
     setErrorMessage('');
 
     try {
-      const response = await axios.get(`/api/pet/${petId}/diary/`, {
+      const response = await api.get(`/api/pet/${petId}/diary/`, {
         params: { year, month },
       });
       setPet(response.data.pet || null);

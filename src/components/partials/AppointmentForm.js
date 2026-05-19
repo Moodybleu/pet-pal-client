@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../utils/petsApi';
 
 const APPOINTMENT_TYPES = ['Groomer', 'Play date', 'Cuddles', 'Vet follow-up', 'Other'];
 
@@ -84,7 +84,7 @@ function CompactAppointmentForm({ showBackLink, fixedPetId, hidePetPicker = fals
     const loadPets = async () => {
       setLoadingPets(true);
       try {
-        const response = await axios.get('/api/pet/');
+        const response = await api.get('/api/pet/');
         const list = response.data || [];
         setPets(list);
         if (list.length === 1) setSelectedPetId(String(list[0].id));
@@ -113,7 +113,7 @@ function CompactAppointmentForm({ showBackLink, fixedPetId, hidePetPicker = fals
     setSuccessMessage('');
     try {
       const resolvedTitle = title === 'Other' ? fields.customTitle.trim() : title;
-      await axios.post('/api/appointments/', {
+      await api.post('/api/appointments/', {
         pet: Number(activePetId),
         date,
         title: resolvedTitle,
@@ -435,7 +435,7 @@ function FullAppointmentForm({
     const loadPets = async () => {
       setLoadingPets(true);
       try {
-        const response = await axios.get('/api/pet/');
+        const response = await api.get('/api/pet/');
         const list = response.data || [];
         setPets(list);
         if (list.length === 1) setSelectedPetId(String(list[0].id));
@@ -468,7 +468,7 @@ function FullAppointmentForm({
       .filter(Boolean)
       .join('\n');
     try {
-      await axios.post('/api/appointments/', {
+      await api.post('/api/appointments/', {
         pet: Number(activePetId),
         date: form.date,
         title: resolvedTitle,

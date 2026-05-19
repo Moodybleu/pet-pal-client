@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../../../utils/petsApi';
 import { useNavigate } from 'react-router-dom';
 
 export default function PetNew() {
@@ -19,7 +19,7 @@ export default function PetNew() {
     setErrorMessage('');
 
     try {
-      await axios.post('http://localhost:8000/api/pet/', form);
+      await api.post('/api/pet/', form);
       navigate('/user/profile/');
     } catch (err) {
       console.warn(err);

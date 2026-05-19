@@ -1,3 +1,15 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: process.env.REACT_APP_API_URL || '',
+});
+
+export default api;
+
+export function getApiBaseUrl() {
+  return (process.env.REACT_APP_API_URL || '').replace(/\/$/, '');
+}
+
 export function parsePetList(data) {
   if (Array.isArray(data)) {
     return data;
@@ -10,7 +22,7 @@ export function parsePetList(data) {
 
 export function formatApiError(err, fallback) {
   if (!err.response) {
-    return 'Could not reach the server. Is Django running on port 8000?';
+    return 'Could not reach the server. Check that the API is running.';
   }
 
   const { data, status } = err.response;

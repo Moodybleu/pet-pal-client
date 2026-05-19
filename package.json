@@ -2,6 +2,7 @@
   "name": "pet-pal",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://moodybleu.github.io/pet-pal-client",
   "proxy": "http://localhost:8000",
   "dependencies": {
     "@headlessui/react": "^1.7.3",

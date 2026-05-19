@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/petsApi';
 import SelectionCards from '../partials/SelectionCards';
 import HomePetPicker from '../partials/HomePetPicker';
 import Daily from './daily_needs/Daily';
@@ -24,7 +24,7 @@ export default function Home({ isLoggedIn: isLoggedInProp }) {
     const loadPets = async () => {
       setLoadingPets(true);
       try {
-        const response = await axios.get('/api/pet/');
+        const response = await api.get('/api/pet/');
         const list = parsePetList(response.data);
         setPets(list);
 

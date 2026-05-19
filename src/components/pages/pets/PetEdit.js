@@ -1,5 +1,5 @@
 import { useEffect, useState, useParams } from "react"
-import axios from 'axios'
+import api from '../../../utils/petsApi'
 import { useNavigate } from "react-router-dom"
 
 export default function PetEdit(){
@@ -28,7 +28,7 @@ export default function PetEdit(){
         const getPet = async () => {
         try {
             console.log(id)
-            const response = await axios.get(`http://localhost:8000/user/pet/${id}/`, options)
+            const response = await api.get(`/api/pet/${id}/`, options)
             const pet = response.data.pet.filter(pet => pet._id === id)
             console.log(pet)
             console.log(pet[0].content)
@@ -47,7 +47,7 @@ const handleSubmit = async e => {
     e.preventDefault()
     try {
 
-        const response = await axios.put(`http://localhost:8000/user/pet/${id}/`, form, options)
+        const response = await api.put(`/api/pet/${id}/`, form, options)
         navigate("/user/profile/")
     } catch(err) {
         console.warn(err)
@@ -61,7 +61,7 @@ const handleDelete = async e => {
     e.preventDefault()
     try {
         console.log(options)
-        const response = await axios.delete(`http://localhost:8000/user/pet/${id}/`, options)
+        const response = await api.delete(`/api/pet/${id}/`, options)
         navigate("/user/profile")
     } catch(err) {
         console.warn(err)

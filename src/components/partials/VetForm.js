@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../utils/petsApi';
 
 const emptyForm = () => ({
   date: new Date().toISOString().slice(0, 10),
@@ -54,7 +54,7 @@ export default function VetForm({
     const loadPets = async () => {
       setLoadingPets(true);
       try {
-        const response = await axios.get('/api/pet/');
+        const response = await api.get('/api/pet/');
         const list = response.data || [];
         setPets(list);
         if (list.length === 1) {
@@ -84,7 +84,7 @@ export default function VetForm({
     }
 
     try {
-      await axios.post('/api/health/', {
+      await api.post('/api/health/', {
         pet: Number(activePetId),
         ...form,
       });

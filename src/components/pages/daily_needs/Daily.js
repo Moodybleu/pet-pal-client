@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../../utils/petsApi';
 import Food from './Food';
 import CustomDailyChecks from './CustomDailyChecks';
 import Walk from './Walk';
@@ -54,7 +54,7 @@ export default function Daily({
       const fullDetails = details ? `${details}. ${timeNote}` : timeNote;
 
       try {
-        await axios.post('/api/daily/', {
+        await api.post('/api/daily/', {
           pet: Number(selectedPetId),
           date: toDateKey(logDateTime),
           log_type: logType,
