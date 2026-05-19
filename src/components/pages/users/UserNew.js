@@ -37,7 +37,7 @@ export default function UserNew({ currentUser, setCurrentUser }) {
           setMsg('Sign up failed. Check your details and try again.');
         }
       } else {
-        setMsg('Could not reach the server. Is Django running on port 8000?');
+        setMsg('Could not reach the server. Check that the API is running.');
       }
     }
   };
@@ -47,53 +47,65 @@ export default function UserNew({ currentUser, setCurrentUser }) {
   }
 
   return (
-    <div>
+    <div className="auth-page">
       <h1>Sign up to add your pet!</h1>
-      {msg && <p>{msg}</p>}
+      {msg && <p className="auth-message">{msg}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">
-          <h2>username:</h2>
-        </label>
-        <input
-          type="text"
-          id="username"
-          placeholder="Enter your username"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          required
-        />
-        <label htmlFor="email">
-          <h2>Email:</h2>
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          required
-        />
-        <label className="pass" htmlFor="password">
-          <h2>Password:</h2>
-        </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Choose your password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          required
-        />
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="auth-field">
+          <label htmlFor="username">
+            <h2>Username:</h2>
+          </label>
+          <input
+            type="text"
+            id="username"
+            className="auth-input"
+            placeholder="Enter your username"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            required
+            autoComplete="username"
+          />
+        </div>
+        <div className="auth-field">
+          <label htmlFor="email">
+            <h2>Email:</h2>
+          </label>
+          <input
+            type="email"
+            id="email"
+            className="auth-input"
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            required
+            autoComplete="email"
+          />
+        </div>
+        <div className="auth-field">
+          <label htmlFor="password">
+            <h2>Password:</h2>
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="auth-input"
+            placeholder="Choose your password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            required
+            autoComplete="new-password"
+          />
+        </div>
         <button type="submit" className="bg-sky-500 hover:bg-sky-700 ...">
           <h2>Register</h2>
         </button>
       </form>
 
-      <div>
+      <div className="auth-footer">
         <p>
-          Already a member?
-          <Link to="/user/login">
+          Already a member?{' '}
+          <Link to="/user/login/">
             <u>Login here</u>
           </Link>
         </p>

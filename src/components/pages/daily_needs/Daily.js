@@ -118,13 +118,14 @@ export default function Daily({
           disabled={controlsDisabled}
           saving={saving}
         />
-        <Walk
-          onLogWalk={() => saveDailyLog('walk', 'Went for a walk')}
-          disabled={controlsDisabled}
-          saving={saving}
-        />
         <TableDatePicker selected={logDateTime} onChange={setLogDateTime} />
       </div>
+
+      <Walk
+        onLogWalk={() => saveDailyLog('walk', 'Went for a walk')}
+        disabled={controlsDisabled}
+        saving={saving}
+      />
 
       <hr className="daily-card-divider" aria-hidden="true" />
 
