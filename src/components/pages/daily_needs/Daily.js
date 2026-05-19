@@ -4,7 +4,6 @@ import api from '../../../utils/petsApi';
 import Food from './Food';
 import CustomDailyChecks from './CustomDailyChecks';
 import ActivityLog from './ActivityLog';
-import PottyTrip from './Potty_trip';
 import TableDatePicker from './TableDatePicker';
 
 function toDateKey(d) {
@@ -128,17 +127,6 @@ export default function Daily({
         disabled={controlsDisabled}
         saving={saving}
       />
-
-      <hr className="daily-card-divider" aria-hidden="true" />
-
-      <section className="potty-timer-section" aria-label="Potty training timer">
-        <PottyTrip
-          onLogPotty={() => saveDailyLog('potty', 'Potty training timer completed')}
-          onLogPottyBreak={() => saveDailyLog('potty', 'Potty break logged')}
-          disabled={controlsDisabled}
-          saving={saving}
-        />
-      </section>
 
       {selectedPetId && (
         <p className="vet-form-more-fields">

@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../../utils/petsApi';
+import PottyTrip from '../pages/daily_needs/Potty_trip';
 
 const emptyForm = () => ({
   date: new Date().toISOString().slice(0, 10),
@@ -30,6 +31,7 @@ export default function VetForm({
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [loadingPets, setLoadingPets] = useState(showPetPicker);
+  const [pottySaving, setPottySaving] = useState(false);
 
   const navigate = useNavigate();
   const activePetId = routePetId || (hidePetPicker ? petIdProp : '') || selectedPetId;
@@ -70,6 +72,41 @@ export default function VetForm({
 
     loadPets();
   }, [routePetId, hidePetPicker, petIdProp]);
+
+  const logPottyEvent = useCallback(
+    async (details) => {
+      if (!activePetId) {
+        setErrorMessage('Select a pet above to use the potty timer.');
+        return false;
+      }
+
+      setPottySaving(true);
+      setErrorMessage('');
+      try {
+        const loggedAt = new Date().toLocaleString(undefined, {
+          dateStyle: 'medium',
+          timeStyle: 'short',
+        });
+        await api.post('/api/daily/', {
+          pet: Number(activePetId),
+          date: new Date().toISOString().slice(0, 10),
+          log_type: 'potty',
+          details: `${details}. Logged at ${loggedAt}`,
+        });
+        const petName =
+          petList.find((p) => String(p.id) === String(activePetId))?.name || 'your pet';
+        setSuccessMessage(`Potty break saved for ${petName}!`);
+        return true;
+      } catch (err) {
+        console.warn(err);
+        setErrorMessage('Could not save potty log. Is the server running?');
+        return false;
+      } finally {
+        setPottySaving(false);
+      }
+    },
+    [activePetId, petList]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -234,6 +271,17 @@ export default function VetForm({
               />
             </div>
           </>
+        )}
+
+        {compact && (
+          <section className="vet-form-potty-section" aria-label="Potty training timer">
+            <PottyTrip
+              onLogPotty={() => logPottyEvent('Potty training timer completed')}
+              onLogPottyBreak={() => logPottyEvent('Potty break logged')}
+              disabled={!activePetId || pottySaving}
+              saving={pottySaving}
+            />
+          </section>
         )}
 
         <button type="submit" className="vet-form-submit">
