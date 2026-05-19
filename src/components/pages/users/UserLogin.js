@@ -60,7 +60,9 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
         email: reminderEmail.trim(),
       });
       setMsg(response.data.msg);
-      closeForgotHelp();
+      if (response.status === 200) {
+        closeForgotHelp();
+      }
     } catch (err) {
       console.warn(err);
       setMsg(err.response?.data?.msg || 'Could not send login reminder. Try again later.');
@@ -189,6 +191,7 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
             <form className="auth-form" onSubmit={handleRemindLogin}>
               <p className="auth-forgot-intro">
                 Enter your sign-up email. We will send your username and a temporary password.
+                If email is not set up on the server, use the <strong>Reset password</strong> tab instead.
               </p>
               <div className="auth-field">
                 <label htmlFor="reminder-email">
