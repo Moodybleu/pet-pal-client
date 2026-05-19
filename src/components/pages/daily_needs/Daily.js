@@ -4,7 +4,7 @@ import api from '../../../utils/petsApi';
 import Food from './Food';
 import CustomDailyChecks from './CustomDailyChecks';
 import Walk from './Walk';
-import Potty_trip from './Potty_trip';
+import PottyTrip from './Potty_trip';
 import TableDatePicker from './TableDatePicker';
 
 function toDateKey(d) {
@@ -129,7 +129,7 @@ export default function Daily({
       <hr className="daily-card-divider" aria-hidden="true" />
 
       <section className="potty-timer-section" aria-label="Potty training timer">
-        <Potty_trip
+        <PottyTrip
           onLogPotty={() => saveDailyLog('potty', 'Potty training timer completed')}
           onLogPottyBreak={() => saveDailyLog('potty', 'Potty break logged')}
           disabled={controlsDisabled}

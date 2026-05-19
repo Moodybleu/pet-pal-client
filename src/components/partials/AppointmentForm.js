@@ -506,8 +506,11 @@ function FullAppointmentForm({
               value={selectedPetId}
               onChange={(e) => setSelectedPetId(e.target.value)}
               required
+              disabled={loadingPets}
             >
-              <option value="">Select a pet</option>
+              <option value="">
+                {loadingPets ? 'Loading pets…' : 'Select a pet'}
+              </option>
               {pets.map((pet) => (
                 <option key={pet.id} value={pet.id}>
                   {pet.name}
