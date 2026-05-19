@@ -32,7 +32,7 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
 
     try {
       const response = await api.post('/api/user/login/', {
-        login,
+        login: login.trim(),
         password,
       });
 
@@ -43,9 +43,9 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
     } catch (err) {
       console.warn(err);
       if (err.response?.status === 400) {
-        const base = err.response.data.msg || 'Login failed. Check your username or email and password.';
         setMsg(
-          `${base} If you reset your password, use the new one — saved passwords may be outdated after a server update.`
+          err.response.data.msg
+            || 'Login failed. Use Reset password to set a new one, or Sign up if you have not created an account yet.'
         );
       } else {
         setMsg('Could not reach the server. Check that the API is running.');
@@ -85,8 +85,15 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
         new_password: newPassword,
         confirm_password: confirmPassword,
       });
+      const emailUsed = resetEmail.trim();
+      setShowForgotHelp(false);
+      setForgotMode('remind');
+      setResetEmail('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setLogin(emailUsed);
+      setPassword('');
       setMsg(response.data.msg);
-      closeForgotHelp();
     } catch (err) {
       console.warn(err);
       setMsg(err.response?.data?.msg || 'Could not reset password. Try again later.');
