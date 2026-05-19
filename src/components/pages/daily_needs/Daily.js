@@ -108,12 +108,14 @@ export default function Daily({
 
       <div className="daily-needs-section">
         <Food
+          petId={selectedPetId}
           onLogBreakfast={() => saveDailyLog('breakfast', 'Breakfast')}
           onLogDinner={() => saveDailyLog('dinner', 'Dinner')}
           disabled={controlsDisabled}
           saving={saving}
         />
         <CustomDailyChecks
+          petId={selectedPetId}
           onLogItem={(label) => saveDailyLog(slugifyLogType(label), label)}
           disabled={controlsDisabled}
           saving={saving}

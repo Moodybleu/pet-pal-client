@@ -61,8 +61,8 @@ export default function Profile() {
                     <span className="welcome-pet-separator" aria-hidden="true">
                       ·
                     </span>
-                    <Link to={`/pet/${pet.id}/diary/`} className="welcome-pet-diary-link">
-                      Diary
+                    <Link to={`/pet/${pet.id}/profile/`} className="welcome-pet-profile-link">
+                      Profile
                     </Link>
                   </div>
                 </div>

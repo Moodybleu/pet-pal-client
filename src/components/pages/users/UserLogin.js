@@ -43,7 +43,10 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
     } catch (err) {
       console.warn(err);
       if (err.response?.status === 400) {
-        setMsg(err.response.data.msg || 'Login failed. Check your username or email and password.');
+        const base = err.response.data.msg || 'Login failed. Check your username or email and password.';
+        setMsg(
+          `${base} If you reset your password, use the new one — saved passwords may be outdated after a server update.`
+        );
       } else {
         setMsg('Could not reach the server. Check that the API is running.');
       }
@@ -98,6 +101,7 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
 
   return (
     <div className="auth-page">
+      <div className="auth-card">
       <h1>Login to access your account</h1>
       {msg && <p className="auth-message">{msg}</p>}
 
@@ -215,8 +219,8 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
           ) : (
             <form className="auth-form" onSubmit={handleResetPassword}>
               <p className="auth-forgot-intro">
-                Enter your sign-up email and choose a new password. We will email you a confirmation
-                when it is updated.
+                Enter your sign-up email and choose a new password. If the email is not registered yet,
+                use <strong>Sign up</strong> instead — reset only works for existing accounts.
               </p>
               <div className="auth-field">
                 <label htmlFor="reset-email">
@@ -278,6 +282,7 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
           </p>
         </div>
       )}
+      </div>
     </div>
   );
 }

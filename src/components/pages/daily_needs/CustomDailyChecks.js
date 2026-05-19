@@ -16,7 +16,7 @@ function newItemId() {
   return `custom-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-export default function CustomDailyChecks({ onLogItem, disabled, saving }) {
+export default function CustomDailyChecks({ petId, onLogItem, disabled, saving }) {
   const [items, setItems] = useState(loadCustomItems);
   const [newLabel, setNewLabel] = useState('');
 
@@ -57,6 +57,8 @@ export default function CustomDailyChecks({ onLogItem, disabled, saving }) {
             <div key={item.id} className="custom-daily-row">
               <DailyCheckbox
                 label={item.label}
+                checkId={item.id}
+                petId={petId}
                 onLog={() => onLogItem(item.label)}
                 disabled={disabled}
                 saving={saving}

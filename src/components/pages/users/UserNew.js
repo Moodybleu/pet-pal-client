@@ -48,6 +48,7 @@ export default function UserNew({ currentUser, setCurrentUser }) {
 
   return (
     <div className="auth-page">
+      <div className="auth-card">
       <h1>Sign up to add your pet!</h1>
       {msg && <p className="auth-message">{msg}</p>}
 
@@ -109,6 +110,7 @@ export default function UserNew({ currentUser, setCurrentUser }) {
             <u>Login here</u>
           </Link>
         </p>
+      </div>
       </div>
     </div>
   );

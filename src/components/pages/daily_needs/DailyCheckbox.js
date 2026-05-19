@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   animated,
   useSpring,
@@ -6,9 +6,29 @@ import {
   useSpringRef,
   useChain,
 } from 'react-spring';
+import {
+  getLocalDateKey,
+  isDailyCheckChecked,
+  setDailyCheckChecked,
+} from '../../../utils/dailyCheckState';
 
-export default function DailyCheckbox({ label, onLog, disabled, saving, className = '' }) {
-  const [isChecked, setIsChecked] = useState(false);
+export default function DailyCheckbox({
+  label,
+  checkId,
+  petId,
+  onLog,
+  disabled,
+  saving,
+  className = '',
+}) {
+  const [isChecked, setIsChecked] = useState(() =>
+    isDailyCheckChecked(petId, checkId, getLocalDateKey())
+  );
+
+  useEffect(() => {
+    setIsChecked(isDailyCheckChecked(petId, checkId, getLocalDateKey()));
+  }, [petId, checkId]);
+
   const checkboxAnimationRef = useSpringRef();
   const checkboxAnimationStyle = useSpring({
     backgroundColor: isChecked ? '#808' : '#fff',
@@ -35,14 +55,25 @@ export default function DailyCheckbox({ label, onLog, disabled, saving, classNam
 
   const handleChange = async () => {
     const nextChecked = !isChecked;
-    setIsChecked(nextChecked);
+    const dateKey = getLocalDateKey();
 
-    if (nextChecked && onLog) {
-      const ok = await onLog();
-      if (!ok) {
-        setIsChecked(false);
+    if (nextChecked) {
+      setIsChecked(true);
+      if (onLog) {
+        const ok = await onLog();
+        if (ok) {
+          setDailyCheckChecked(petId, checkId, true, dateKey);
+        } else {
+          setIsChecked(false);
+        }
+      } else {
+        setDailyCheckChecked(petId, checkId, true, dateKey);
       }
+      return;
     }
+
+    setIsChecked(false);
+    setDailyCheckChecked(petId, checkId, false, dateKey);
   };
 
   return (

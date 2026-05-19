@@ -88,16 +88,25 @@ input[type=password]:not(.auth-input) {
   box-sizing: border-box;
 }
 
-.auth-page h1 {
-  margin: 0 0 1rem;
-  text-align: center;
+.auth-card {
+  width: 100%;
   max-width: 420px;
+  padding: 1.75rem 1.5rem 1.25rem;
+  box-sizing: border-box;
+  background-color: rgba(254, 244, 229, 0.651);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 32px;
+  color: #1a1a1a;
 }
 
-.auth-page > p,
-.auth-page .auth-message {
+.auth-card h1 {
+  margin: 0 0 1rem;
   text-align: center;
-  max-width: 420px;
+}
+
+.auth-card > p,
+.auth-card .auth-message {
+  text-align: center;
 }
 
 .auth-form {

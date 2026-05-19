@@ -1,6 +1,6 @@
 import DailyCheckbox from './DailyCheckbox';
 
-export default function Food({ onLogBreakfast, onLogDinner, disabled, saving }) {
+export default function Food({ petId, onLogBreakfast, onLogDinner, disabled, saving }) {
   return (
     <section className="feed-my-pet" aria-labelledby="feed-my-pet-heading">
       <h2 id="feed-my-pet-heading" className="feed-my-pet-heading">
@@ -9,6 +9,8 @@ export default function Food({ onLogBreakfast, onLogDinner, disabled, saving }) 
       <div className="feed-meals-row">
         <DailyCheckbox
           label="Breakfast"
+          checkId="breakfast"
+          petId={petId}
           onLog={onLogBreakfast}
           disabled={disabled}
           saving={saving}
@@ -16,6 +18,8 @@ export default function Food({ onLogBreakfast, onLogDinner, disabled, saving }) 
         />
         <DailyCheckbox
           label="Dinner"
+          checkId="dinner"
+          petId={petId}
           onLog={onLogDinner}
           disabled={disabled}
           saving={saving}
