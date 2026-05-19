@@ -131,9 +131,11 @@ export default function PetProfile({ isCreate: isCreateProp = false }) {
         navigate(`/pet/${response.data.id}/profile/`);
         return;
       }
-      await api.patch(`/api/pet/${petId}/`, payload);
-      const response = await api.get(`/api/pet/${petId}/`);
-      setExistingPhotoUrl(getPetPhotoSrc(response.data));
+      const patchResponse = await api.patch(`/api/pet/${petId}/`, payload);
+      const savedPet = patchResponse.data?.photo_url
+        ? patchResponse.data
+        : (await api.get(`/api/pet/${petId}/`)).data;
+      setExistingPhotoUrl(getPetPhotoSrc(savedPet));
       setPhotoFile(null);
       setPhotoPreview(null);
       setSuccessMessage('Profile saved!');

@@ -11,23 +11,27 @@ export function buildPetFormData(fields, photoFile) {
   return formData;
 }
 
+function apiBaseForMedia() {
+  const fromEnv = getApiBaseUrl();
+  if (fromEnv) return fromEnv;
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:8000';
+  }
+  return '';
+}
+
 export function getPetPhotoSrc(pet) {
   if (!pet?.photo_url) return null;
   const url = pet.photo_url;
+
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+
   if (url.startsWith('/')) {
-    const base = getApiBaseUrl();
+    const base = apiBaseForMedia();
     return base ? `${base}${url}` : url;
   }
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    try {
-      const { pathname } = new URL(url);
-      if (pathname.startsWith('/media/')) {
-        const base = getApiBaseUrl();
-        return base ? `${base}${pathname}` : pathname;
-      }
-    } catch {
-      return url;
-    }
-  }
+
   return url;
 }
