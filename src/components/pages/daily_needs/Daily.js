@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../../utils/petsApi';
 import Food from './Food';
 import CustomDailyChecks from './CustomDailyChecks';
-import Walk from './Walk';
+import ActivityLog from './ActivityLog';
 import PottyTrip from './Potty_trip';
 import TableDatePicker from './TableDatePicker';
 
@@ -121,8 +121,8 @@ export default function Daily({
         <TableDatePicker selected={logDateTime} onChange={setLogDateTime} />
       </div>
 
-      <Walk
-        onLogWalk={() => saveDailyLog('walk', 'Went for a walk')}
+      <ActivityLog
+        onLogActivity={(logType, details) => saveDailyLog(logType, details)}
         disabled={controlsDisabled}
         saving={saving}
       />
