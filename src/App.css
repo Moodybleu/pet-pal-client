@@ -5,8 +5,9 @@
 .app-main {
   position: relative;
   z-index: 1;
-  min-height: 60vh;
+  min-height: calc(100vh - 5.5rem);
   padding-bottom: 2rem;
+  box-sizing: border-box;
 }
 
 input[type="checkbox"] {

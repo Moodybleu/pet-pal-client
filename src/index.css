@@ -81,11 +81,21 @@ input[type=password]:not(.auth-input) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
+  min-height: calc(100vh - 5.5rem);
+  padding: 2.5rem 1.25rem 3rem;
+  box-sizing: border-box;
 }
 
-.auth-page h1,
-.auth-page > p {
+.auth-page h1 {
+  margin: 0 0 1rem;
+  text-align: center;
+  max-width: 420px;
+}
+
+.auth-page > p,
+.auth-page .auth-message {
   text-align: center;
   max-width: 420px;
 }
