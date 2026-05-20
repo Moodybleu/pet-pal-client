@@ -232,8 +232,10 @@
 }
 
 .diary-entry-delete {
+  display: block;
   width: auto;
   max-width: 100%;
+  margin: 0 auto !important;
   padding: 0.3rem 0.5rem;
   font-size: 0.68rem;
   font-weight: 600;
@@ -242,6 +244,7 @@
   border: 1px solid #c44;
   border-radius: 4px;
   cursor: pointer;
+  align-self: center;
 }
 
 .diary-entry-delete:hover:not(:disabled) {
