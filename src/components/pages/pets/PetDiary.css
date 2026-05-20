@@ -222,6 +222,38 @@
   font-size: 0.7rem;
 }
 
+.diary-entry-actions {
+  padding: 0.35rem 0.5rem 0.45rem;
+  border-top: 1px solid #ddd;
+}
+
+.diary-entry-delete {
+  width: 100%;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #8b1a1a;
+  background: #fff;
+  border: 1px solid #c44;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.diary-entry-delete:hover:not(:disabled) {
+  background: #fff5f5;
+}
+
+.diary-entry-delete:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.diary-entry-delete-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.65rem;
+  color: #8b1a1a;
+}
+
 .diary-actions {
   margin-top: 1.5rem;
   display: flex;

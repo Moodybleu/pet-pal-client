@@ -39,7 +39,10 @@ function formatError(err) {
   return 'Could not load this diary.';
 }
 
-function DiaryEntryDropdown({ entry }) {
+function DiaryEntryDropdown({ entry, onDelete, deletingEntryKey, deleteError }) {
+  const entryKey = `${entry.type}-${entry.id}`;
+  const isDeleting = deletingEntryKey === entryKey;
+
   return (
     <details className="diary-entry">
       <summary>{entry.label}</summary>
@@ -54,6 +57,22 @@ function DiaryEntryDropdown({ entry }) {
       ) : (
         <p className="diary-entry-empty">No details recorded.</p>
       )}
+      <div className="diary-entry-actions">
+        <button
+          type="button"
+          className="diary-entry-delete"
+          onClick={() => onDelete(entry)}
+          disabled={Boolean(deletingEntryKey)}
+          aria-label={`Delete ${entry.label}`}
+        >
+          {isDeleting ? 'Removing…' : 'Remove from calendar'}
+        </button>
+        {deleteError && isDeleting && (
+          <p className="diary-entry-delete-error" role="alert">
+            {deleteError}
+          </p>
+        )}
+      </div>
     </details>
   );
 }
@@ -67,6 +86,8 @@ export default function PetDiary() {
   const [entriesByDate, setEntriesByDate] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [deletingEntryKey, setDeletingEntryKey] = useState('');
+  const [deleteError, setDeleteError] = useState('');
 
   const loadDiary = useCallback(async () => {
     if (!petId) {
@@ -97,6 +118,49 @@ export default function PetDiary() {
   useEffect(() => {
     loadDiary();
   }, [loadDiary]);
+
+  const removeEntryFromState = (dateKey, entry) => {
+    setEntriesByDate((prev) => {
+      const next = { ...prev };
+      const dayEntries = (next[dateKey] || []).filter(
+        (item) => !(item.type === entry.type && item.id === entry.id)
+      );
+      if (dayEntries.length) {
+        next[dateKey] = dayEntries;
+      } else {
+        delete next[dateKey];
+      }
+      return next;
+    });
+  };
+
+  const handleDeleteEntry = async (dateKey, entry) => {
+    const entryKey = `${entry.type}-${entry.id}`;
+    const detailSnippet =
+      entry.fields?.find((f) => f.label === 'Details')?.value ||
+      entry.fields?.find((f) => f.label === 'Date')?.value ||
+      '';
+    const confirmMessage = detailSnippet
+      ? `Remove "${entry.label}" (${detailSnippet}) from this day? This cannot be undone.`
+      : `Remove "${entry.label}" from this day? This cannot be undone.`;
+
+    if (!window.confirm(confirmMessage)) {
+      return;
+    }
+
+    setDeletingEntryKey(entryKey);
+    setDeleteError('');
+
+    try {
+      await api.delete(`/api/pet/${petId}/diary/${entry.type}/${entry.id}/`);
+      removeEntryFromState(dateKey, entry);
+    } catch (err) {
+      console.warn(err);
+      setDeleteError(formatError(err));
+    } finally {
+      setDeletingEntryKey('');
+    }
+  };
 
   const goToPreviousMonth = () => {
     if (month === 1) {
@@ -166,7 +230,10 @@ export default function PetDiary() {
         </button>
       </div>
 
-      <p className="diary-hint">Days with records show a dropdown you can open for details.</p>
+      <p className="diary-hint">
+        Open a day&apos;s entry for details. Use &quot;Remove from calendar&quot; to delete a
+        duplicate or mistaken log (for example, breakfast logged twice).
+      </p>
 
       <div className="diary-calendar">
         <div className="diary-weekdays">
@@ -193,7 +260,13 @@ export default function PetDiary() {
                 <span className="diary-day-number">{cell.day}</span>
                 <div className="diary-day-entries">
                   {dayEntries.map((entry) => (
-                    <DiaryEntryDropdown key={`${entry.type}-${entry.id}`} entry={entry} />
+                    <DiaryEntryDropdown
+                      key={`${entry.type}-${entry.id}`}
+                      entry={entry}
+                      onDelete={(item) => handleDeleteEntry(cell.dateKey, item)}
+                      deletingEntryKey={deletingEntryKey}
+                      deleteError={deleteError}
+                    />
                   ))}
                 </div>
               </div>
