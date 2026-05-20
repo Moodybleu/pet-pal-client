@@ -223,13 +223,18 @@
 }
 
 .diary-entry-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0.35rem 0.5rem 0.45rem;
   border-top: 1px solid #ddd;
+  text-align: center;
 }
 
 .diary-entry-delete {
-  width: 100%;
-  padding: 0.3rem 0.4rem;
+  width: auto;
+  max-width: 100%;
+  padding: 0.3rem 0.5rem;
   font-size: 0.68rem;
   font-weight: 600;
   color: #8b1a1a;
@@ -252,6 +257,7 @@
   margin: 0.35rem 0 0;
   font-size: 0.65rem;
   color: #8b1a1a;
+  text-align: center;
 }
 
 .diary-actions {
