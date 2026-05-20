@@ -820,15 +820,37 @@ h1, h2, h3, h4{
 
 .custom-daily-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 0.35rem;
+}
+
+.custom-daily-row-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .custom-daily-row .daily-check-item {
   flex: 1;
   display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+.custom-daily-schedule-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(30, 90, 92, 0.9);
+  line-height: 1.2;
+}
+
+.custom-daily-hint--warn {
+  color: rgba(120, 40, 40, 0.9);
+  font-weight: 600;
 }
 
 .custom-daily-remove {
@@ -871,6 +893,67 @@ h1, h2, h3, h4{
 
 .custom-daily-add .daily-log-btn {
   flex-shrink: 0;
+}
+
+.custom-daily-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.custom-daily-schedule-options {
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.custom-daily-schedule-legend {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0.35rem;
+}
+
+.custom-daily-schedule-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+  cursor: pointer;
+}
+
+.custom-daily-schedule-option input {
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.custom-daily-days-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
+}
+
+.custom-daily-days-input {
+  width: 4.5rem;
+  padding: 6px 8px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  text-align: center;
+  font-family: inherit;
+  font-size: 0.9rem;
 }
 
 .daily-card-heading {

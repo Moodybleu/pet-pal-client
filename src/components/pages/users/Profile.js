@@ -57,13 +57,11 @@ export default function Profile() {
                     )}
                   </div>
                   <div className="welcome-pet-links">
-                    <Link to={`/pet/${pet.id}/profile/`}>{pet.name}&apos;s</Link>
+                    <Link to={`/pet/${pet.id}/profile/`}>{pet.name}&apos;s profile</Link>
                     <span className="welcome-pet-separator" aria-hidden="true">
-                      ·
+                      |
                     </span>
-                    <Link to={`/pet/${pet.id}/profile/`} className="welcome-pet-profile-link">
-                      Profile
-                    </Link>
+                    <Link to={`/pet/${pet.id}/diary/`}>Diary</Link>
                   </div>
                 </div>
               );

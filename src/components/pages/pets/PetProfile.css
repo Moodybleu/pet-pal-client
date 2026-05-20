@@ -26,6 +26,32 @@
   font-size: 1.5rem;
 }
 
+.pet-page-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35rem 0.5rem;
+}
+
+.pet-page-title a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin: 0 !important;
+  text-shadow: none !important;
+}
+
+.pet-page-title-separator {
+  opacity: 0.55;
+  font-weight: 400;
+  user-select: none;
+}
+
+.pet-page-title-current {
+  font-weight: 700;
+}
+
 .pet-profile-message {
   width: 100%;
   box-sizing: border-box;

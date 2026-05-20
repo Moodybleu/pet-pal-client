@@ -167,7 +167,19 @@ export default function PetProfile({ isCreate: isCreateProp = false }) {
         <Link to="/user/profile/">← Back to your pets</Link>
       </p>
 
-      <h1>{isNew ? 'Create a pet profile' : `${form.name || 'Pet'}'s profile`}</h1>
+      <h1 className="pet-page-title">
+        {isNew ? (
+          'Create a pet profile'
+        ) : (
+          <>
+            <span className="pet-page-title-current">{form.name || 'Pet'}&apos;s profile</span>
+            <span className="pet-page-title-separator" aria-hidden="true">
+              |
+            </span>
+            <Link to={`/pet/${petId}/diary/`}>Diary</Link>
+          </>
+        )}
+      </h1>
 
       {errorMessage && (
         <p className="diary-error pet-profile-message" role="alert">
@@ -277,11 +289,6 @@ export default function PetProfile({ isCreate: isCreateProp = false }) {
         )}
       </form>
 
-      {!isNew && petId && !cropSourceUrl && (
-        <p className="pet-profile-links">
-          <Link to={`/pet/${petId}/diary/`}>View {form.name}&apos;s diary</Link>
-        </p>
-      )}
     </div>
   );
 }

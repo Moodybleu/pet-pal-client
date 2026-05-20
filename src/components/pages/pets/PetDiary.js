@@ -131,7 +131,17 @@ export default function PetDiary() {
         <Link to="/user/profile/">← Back to profile</Link>
       </p>
 
-      <h1>{petName}&apos;s diary</h1>
+      <h1 className="pet-page-title">
+        {petId ? (
+          <Link to={`/pet/${petId}/profile/`}>{petName}&apos;s profile</Link>
+        ) : (
+          <span>{petName}&apos;s profile</span>
+        )}
+        <span className="pet-page-title-separator" aria-hidden="true">
+          |
+        </span>
+        <span className="pet-page-title-current">Diary</span>
+      </h1>
       {pet?.breed && <p className="diary-subtitle">{pet.breed}</p>}
 
       {loading && <p className="diary-status">Loading calendar…</p>}
@@ -195,7 +205,7 @@ export default function PetDiary() {
       {petId && (
         <p className="diary-actions">
           <Link to={`/pet/${petId}/profile/`} className="diary-link-btn diary-link-btn--secondary">
-            Pet profile
+            {petName}&apos;s profile
           </Link>
           <Link to={`/pet/${petId}/vet/`} className="diary-link-btn">
             Log a vet visit

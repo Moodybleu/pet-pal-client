@@ -19,6 +19,36 @@
   color: #1a1a1a;
 }
 
+.pet-page-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.35rem 0.5rem;
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.pet-page-title a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pet-page-title a:hover {
+  opacity: 0.85;
+}
+
+.pet-page-title-separator {
+  opacity: 0.55;
+  font-weight: 400;
+  user-select: none;
+}
+
+.pet-page-title-current {
+  font-weight: 700;
+}
+
 .diary-back {
   margin-bottom: 0.5rem;
 }
